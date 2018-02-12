@@ -32,6 +32,13 @@ module FindRepeatDonors
   end
 
   def find_repeat_donors(donors)
-    donors.select { |k,v| v.size > 1 }
+    repeats = {}
+    donors.select { |k,v| v.size > 1 }.each do |donor, donations|
+      check = []
+      donations.each { |donation| check.push(donation[:TRANSACTION_DT][4..-1]) }
+      repeats[donor] = donations if check.uniq.size > 1
+    end
+    
+    repeats
   end
 end
