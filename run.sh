@@ -4,3 +4,4 @@
 #
 #python ./src/donation-analytics.py ./input/itcont.txt ./input/percentile.txt ./output/repeat_donors.txt
 
+ruby ./src/run.rb

@@ -7,9 +7,10 @@ module FindRecipients
   include TransactionCalculator
   include OutputToText
 
-  def gather_recipient_data
+  def gather_recipient_data(filepath)
+    start = Time.now
     output = {}
-    donors = find_unique_donors("./input/itcont.txt")
+    donors = find_unique_donors(filepath + "input/itcont.txt")
     repeats = find_repeat_donors(donors)
     repeats.each do |k, v|
       donation = find_latest_donation(v)
@@ -19,14 +20,20 @@ module FindRecipients
       key = recipient + '|' + zip + '|' + date
 
       if output[key]
-        output[key] = update_recipient(output[key], donation)
-        text_writer(output[key])
+        begin
+          output[key] = update_recipient(output[key], donation, filepath)
+        rescue RuntimeError
+          raise RuntimeError, "Error occurred, unable to finish. Please check percentile.txt input!"
+        else
+          text_writer(output[key], filepath)
+        end
+
       else
         output[key] = new_recipient(donation)
-        text_writer(output[key])
+        text_writer(output[key], filepath)
       end
-
     end
+    puts "finished in #{Time.now - start} secs"
   end
 
   def find_latest_donation(arr)
@@ -61,19 +68,21 @@ module FindRecipients
     }
   end
 
-  def update_recipient(data, donation)
+  def update_recipient(data, donation, filepath)
     data[:REPEATS] += 1
     data[:SUM] += donation[:TRANSACTION_AMT].to_i
     data[:DONATIONS].push(donation[:TRANSACTION_AMT])
 
-    percentile = get_percentile("./input/percentile.txt")
-    rank = ordinal_rank(percentile, data[:DONATIONS])
+    begin
+      percentile = get_percentile(filepath + "input/percentile.txt")
+    rescue RuntimeError
+      raise RuntimeError, "Error with percentile.txt input, make sure it is a single line with a single number."
+    else
+      rank = ordinal_rank(percentile, data[:DONATIONS])
 
-    data[:PERCENTILE] = data[:DONATIONS][rank - 1]
+      data[:PERCENTILE] = data[:DONATIONS][rank - 1]
 
-    data
+      data
+    end
   end
 end
-
-include FindRecipients
-gather_recipient_data
