@@ -14,7 +14,7 @@ The data comes from the Federal Election Commission's publications of campaign c
 3) Transaction amounts may be negative (considered a withdrawal).
 
 ## Setup
-The solution is written in Ruby (2.3.3) and the unit tests use the RSpec framework. The tests are run with Rake. Dependencies are specified in the `Gemfile` and running `bundle install` on the terminal while within the directory should install them.
+The solution is written in Ruby (2.3.3) and the unit tests use the RSpec framework. The tests are run with Rake. Dependencies are specified in the `Gemfile` and, if bundler is installed, running `bundle install` on the terminal while within the directory should install them.
 
 If all is good, feel free to skip to Running the Code.
 
@@ -54,7 +54,7 @@ gem install bundler
 ```
 
 ## Running the Code
-While at the topmost directory in the file structure, and make sure `bundle install` was successful, you should be able to run
+While at the topmost directory in the file structure, and make sure the command `bundle install` was successful, you should be able to run
 ```
 ./run.sh
 ```
