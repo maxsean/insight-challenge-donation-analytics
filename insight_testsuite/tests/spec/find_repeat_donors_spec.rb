@@ -64,7 +64,7 @@ RSpec.describe FindRepeatDonors do
     end
   end
 
-  describe "#find_unique_donors" do
+  describe "#find_repeat_donors" do
     context "if input is a hash of arrays" do
       it "should return a hash of arrays with sizes greater than one" do
         unique_donors = test_class.find_unique_donors(filepath + "itcont.txt")
