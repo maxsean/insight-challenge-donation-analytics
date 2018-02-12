@@ -4,10 +4,14 @@ module TransactionCalculator
     lines = f.readlines
     if lines.size == 1
       output = lines.map {|x| x[/\d+/]}.first.to_i
+      if (1..100).include?(output)
+        return output
+      else
+        raise RuntimeError, "Please make sure percentile is between 1-100."
+      end
     else
-      puts "make sure percentile.txt has one row with a single number"
+      raise RuntimeError, "Please make sure percentile.txt has a single line."
     end
-    output
   end
 
   def ordinal_rank(percentile, array)
