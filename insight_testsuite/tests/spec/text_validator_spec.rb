@@ -45,6 +45,8 @@ RSpec.describe TextValidator do
         input[13] = "01032017"
         input[14] = ""
         expect(test_class.record_valid?(input)).to eq false
+        input[14] = "123aa"
+        expect(test_class.record_valid?(input)).to eq false
         input[14] = "40"
       end
     end
