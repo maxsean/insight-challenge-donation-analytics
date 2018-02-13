@@ -7,11 +7,9 @@ The task is to analyze loyalty trends in campaign contributions to political can
 The data comes from the Federal Election Commission's publications of campaign contributions, and it is assumed the data follows the FEC's [data dictionary](https://classic.fec.gov/finance/disclosure/metadata/DataDictionaryContributionsbyIndividuals.shtml).
 
 ## Assumptions
-1) Repeat donors must have contributed at a prior calendar year. Multiple contributions in a single year does not make a contributor a repeat donor.
+1) Only the latest donations by year from a repeat donor are considered (derived from the provided FAQ about order of data). In that year, all donations from the aforementioned repeat donor to different recipients or the same recipient will be considered in the total transaction amount and percentile calculations for a given recipient for that year and donor's zip code.
 
-2) Only the latest donations by year from a repeat donor are considered (derived from the provided FAQ about order of data). In that year, all donations from the aforementioned repeat donor to different recipients or the same recipient will be considered in the total transaction amount and percentile calculations for a given recipient for that year and donor's zip code.
-
-3) Transaction amounts may be negative (considered a withdrawal).
+2) Transaction amounts may be negative (which would be considered a withdrawal).
 
 ## Setup
 The solution is written in Ruby (2.3.3) and the unit tests use the RSpec framework. The tests are run with Rake. Dependencies are specified in the `Gemfile` and, if bundler is installed, running `bundle install` on the terminal while within the directory should install them.
