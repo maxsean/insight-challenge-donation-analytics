@@ -1,6 +1,6 @@
 module TextValidator
   def record_valid?(array)
-    if [array[0], array[7], array[10], array[13], array[14]].any? { |f| f == ""} || !transaction_dt_valid?(array[13]) || !zip_code_valid?(array[10]) || !name_valid?(array[7]) || array[15] != ""
+    if [array[0], array[7], array[10], array[13], array[14]].any? { |f| f == ""} || !array[14].match(/\A[+-]?\d+?(\.\d+)?\Z/) || !transaction_dt_valid?(array[13]) || !zip_code_valid?(array[10]) || !name_valid?(array[7]) || array[15] != ""
       return false
     end
     return true
@@ -11,6 +11,7 @@ module TextValidator
     day = date[2..3].to_i
     year = date[4..-1].to_i
 
+    return false if !date.match(/\A[+-]?\d+?(\.\d+)?\Z/)
     return false if date.length != 8
     return false if month > 12 || month < 1
     return false if day > 31 || day < 1
